@@ -1,7 +1,10 @@
 # How to use drawTissot function
 par(mar=c(0,0,0,0))
+library(maps) #load packages
+library(mapproj) #load packages
 # Plot world map of choice. Must specify projection and parameters
-map('world',projection = 'mollweide',wrap = T,parameters = NULL)
+map('world',projection = 'mollweide',parameters = NULL,
+    wrap = T,orientation = c(90,0,0))
 # Plot Tissot's indicatrix by specifing same projection and parameters
 drawTissot('mollweide',pars = NULL)
 
