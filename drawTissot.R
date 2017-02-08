@@ -1,32 +1,41 @@
 # How to use drawTissot function
-par(mar=c(0,0,0,0))
 library(maps) #load packages
 library(mapproj) #load packages
 # Plot world map of choice. Must specify projection and parameters
-map('world',projection = 'mollweide',parameters = NULL,
+par(mar=c(0,0,0,0))
+a = map('world',projection = 'mercator',parameters = NULL,
     wrap = T,orientation = c(90,0,0))
 # Plot Tissot's indicatrix by specifing same projection and parameters
-drawTissot('mollweide',pars = NULL)
+drawTissot('mercator',pars = NULL)
 
 #### Function to draw Tissot circles based on projection ####
 #### Hilary Dugan, 2017-02-04
 drawTissot <- function(useProj,pars=NULL) {
-  tissot <- function(long,lat,useProj,usePars) {
+  #data.frame of distance between meridians with latitude 
+  df = data.frame(lat = 0:90, distance = 111.3 * cos((0:90)*pi/180))
+  
+  tissot <- function(long,lat,useProj,usePars=NULL) {
     ocentre <- c(long, lat)
-    t=seq(0,2*pi,0.1)
-    r=4 ## this must be in the units of the map projection, i.e. metres
-    xx=cos(t)*r+ocentre[1]
-    yy=sin(t)*r+ocentre[2]
-    newx = mapproject(xx,yy,proj=useProj,orientation = c(90,0,0),parameters = usePars)$x
-    newy = mapproject(xx,yy,proj=useProj,orientation = c(90,0,0),parameters = usePars)$y
-    lines(newx,newy,col='red3',lwd=1)
+    t=seq(0,2*pi,0.2)
+    
+    distance = df[df$lat == abs(lat),2]/111.3 #Need to calculate the decrease 
+    # in distance between meridians as one moves from the equator to the poles
+    
+    r=4 ## scale size of circles 
+    xx=cos(t)*(r/distance)+ocentre[1]
+    yy=sin(t)*(r)+ocentre[2]
+    
+    lines(mapproject(xx,yy,proj=useProj,orientation = c(90,0,0),parameters = usePars),
+          col='red3')
   }
   
-  out1 = seq(-180,180,by = 30)
-  out2 = seq(-90,90,by=15)
-  for (i in 1:13){
-    for (j in 1:13){
+  out1 = seq(-180,180,by = 45)
+  out2 = seq(-60,60,by=15)
+  for (i in 1:9){
+    for (j in 1:9){
       tissot(out1[i],out2[j],useProj = useProj,usePars=pars)
     }
   }
 }
+
+
