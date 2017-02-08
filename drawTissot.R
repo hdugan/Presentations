@@ -11,16 +11,11 @@ drawTissot('mercator',pars = NULL)
 #### Function to draw Tissot circles based on projection ####
 #### Hilary Dugan, 2017-02-04
 drawTissot <- function(useProj,pars=NULL) {
-  #data.frame of distance between meridians with latitude 
-  df = data.frame(lat = 0:90, distance = 111.3 * cos((0:90)*pi/180))
-  
   tissot <- function(long,lat,useProj,usePars=NULL) {
     ocentre <- c(long, lat)
     t=seq(0,2*pi,0.2)
     
-    distance = df[df$lat == abs(lat),2]/111.3 #Need to calculate the decrease 
-    # in distance between meridians as one moves from the equator to the poles
-    
+    distance = cos((abs(lat))*pi/180) #distance between meridians with latitude 
     r=4 ## scale size of circles 
     xx=cos(t)*(r/distance)+ocentre[1]
     yy=sin(t)*(r)+ocentre[2]
