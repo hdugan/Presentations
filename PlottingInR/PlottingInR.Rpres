@@ -138,7 +138,7 @@ dev.off()
 Saving files
 ========================================================
 ```{r,fig.align='center',fig.height = 3, fig.width = 7, dpi=300}
-png('file.png',height = 5,width = 8,units = 'in',res = 300)
+png('Figures/file.png',height = 5,width = 8,units = 'in',res = 300)
   par(mar=c(3,3,1,1), mgp=c(1.5,0.5,0), tck=-0.02)
   plot(sample(100), sample(100), pch=21, bg=add.alpha('red3',0.7), cex=2)
 dev.off()
@@ -147,7 +147,7 @@ dev.off()
 Saving files - Posters
 ========================================================
 ```{r,fig.align='center',fig.height = 3, fig.width = 7, dpi=300}
-png('file_poster.png',height = 5,width = 8,units = 'in',res = 300)
+png('Figures/file_poster.png',height = 5,width = 8,units = 'in',res = 300)
   par(mar=c(3,3,1,1), mgp=c(1.5,0.5,0), tck=-0.02, cex=2, bg='black',
     col.lab='grey90', col.axis='grey90', fg='grey90')
   plot(sample(100), sample(100), pch=21, bg=add.alpha('red3',0.7), cex=2)
@@ -173,8 +173,8 @@ Example Problem - Wrangle data
 Plot secchi depth of all lakes in the 2007 NLA dataset
 
 ```{r,eval=F}
-secchi = read.csv('NLA2007_Secchi_20091008.csv', stringsAsFactors = F)
-loc = read.csv('NLA2007_SampledLakeInformation_20091113.csv', stringsAsFactors = F)
+secchi = read.csv('Data/NLA2007_Secchi_20091008.csv', stringsAsFactors = F)
+loc = read.csv('Data/NLA2007_SampledLakeInformation_20091113.csv', stringsAsFactors = F)
 
 library(dplyr)
 combo = secchi %>% select(SITE_ID,SECMEAN) %>%
@@ -184,13 +184,13 @@ combo = secchi %>% select(SITE_ID,SECMEAN) %>%
   left_join(.,loc,by='SITE_ID') %>%
   select(SITE_ID, SECMEAN, LON_DD, LAT_DD, AREA_HA)
 
-save(combo,file = "combo.RData")
+save(combo,file = "Data/combo.RData")
 ```
 
 Example Problem - Choose breaks 
 ========================================================
 ```{r, include=FALSE}
-load('combo.Rdata')
+load('Data/combo.Rdata')
 ```
 
 ```{r}
@@ -224,7 +224,7 @@ map('state', fill = T, border ='grey30', col='transparent', lwd=0.3, mar=c(0.5,0
 Mapping
 ========================================================
 ```{r, include=FALSE,fig.align='center',fig.height = 3, fig.width = 7, dpi=300}
-load('combo.Rdata')
+load('Data/combo.Rdata')
 breaksArea = cut(combo$AREA_HA,breaks = c(1,10,100,1000,200000),labels = 1:4)
 sizes = c(0.6,0.8,1,1.2)[breaksArea]
 breaksSecchi = cut(combo$SECMEAN,breaks = c(0,1,5,10,50),labels = 1:4)
@@ -252,7 +252,7 @@ Mapping - Legend
 ```  
 
 ```{r, echo=FALSE,fig.align='center',fig.height = 3, fig.width = 7, dpi=300}
-load('combo.Rdata')
+load('Data/combo.Rdata')
 breaksArea = cut(combo$AREA_HA,breaks = c(1,10,100,1000,200000),labels = 1:4)
 sizes = c(0.6,0.8,1,1.2)[breaksArea]
 breaksSecchi = cut(combo$SECMEAN,breaks = c(0,1,5,10,50),labels = 1:4)

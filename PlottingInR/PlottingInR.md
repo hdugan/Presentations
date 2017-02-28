@@ -168,7 +168,7 @@ Saving files
 ========================================================
 
 ```r
-png('file.png',height = 5,width = 8,units = 'in',res = 300)
+png('Figures/file.png',height = 5,width = 8,units = 'in',res = 300)
   par(mar=c(3,3,1,1), mgp=c(1.5,0.5,0), tck=-0.02)
   plot(sample(100), sample(100), pch=21, bg=add.alpha('red3',0.7), cex=2)
 dev.off()
@@ -183,7 +183,7 @@ Saving files - Posters
 ========================================================
 
 ```r
-png('file_poster.png',height = 5,width = 8,units = 'in',res = 300)
+png('Figures/file_poster.png',height = 5,width = 8,units = 'in',res = 300)
   par(mar=c(3,3,1,1), mgp=c(1.5,0.5,0), tck=-0.02, cex=2, bg='black',
     col.lab='grey90', col.axis='grey90', fg='grey90')
   plot(sample(100), sample(100), pch=21, bg=add.alpha('red3',0.7), cex=2)
@@ -215,8 +215,8 @@ Plot secchi depth of all lakes in the 2007 NLA dataset
 
 
 ```r
-secchi = read.csv('NLA2007_Secchi_20091008.csv', stringsAsFactors = F)
-loc = read.csv('NLA2007_SampledLakeInformation_20091113.csv', stringsAsFactors = F)
+secchi = read.csv('Data/NLA2007_Secchi_20091008.csv', stringsAsFactors = F)
+loc = read.csv('Data/NLA2007_SampledLakeInformation_20091113.csv', stringsAsFactors = F)
 
 library(dplyr)
 combo = secchi %>% select(SITE_ID,SECMEAN) %>%
@@ -226,7 +226,7 @@ combo = secchi %>% select(SITE_ID,SECMEAN) %>%
   left_join(.,loc,by='SITE_ID') %>%
   select(SITE_ID, SECMEAN, LON_DD, LAT_DD, AREA_HA)
 
-save(combo,file = "combo.RData")
+save(combo,file = "Data/combo.RData")
 ```
 
 Example Problem - Choose breaks 
